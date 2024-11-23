@@ -10,6 +10,7 @@ import com.android.news.core.domain.NewsResult
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
+import io.ktor.utils.io.CancellationException
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
@@ -65,7 +66,9 @@ getRemoteNews(null)
     }catch (e:Exception){
         //printstackTrace() is used to print the stack trace of the exception
         e.printStackTrace()
-println(tag+"getNewsRemoteException: "+e.message)
+        if(e is CancellationException)throw e
+
+        println(tag+"getNewsRemoteException: "+e.message)
         null
     }
 
@@ -89,7 +92,7 @@ println(tag+"getNewsRemoteException: "+e.message)
 
     }
 
-    override suspend fun pagginate(nextPage: String): Flow<NewsResult<NewsList>> {
+    override suspend fun pagginate(nextPage: String?): Flow<NewsResult<NewsList>> {
         return flow {
             //get the remote source
             val remoteNewsList=try{
@@ -97,6 +100,8 @@ println(tag+"getNewsRemoteException: "+e.message)
             }catch (e:Exception){
                 //printstackTrace() is used to print the stack trace of the exception
                 e.printStackTrace()
+                if(e is CancellationException)throw e
+
                 println(tag+"paggingException: "+e.message)
                 null
             }
