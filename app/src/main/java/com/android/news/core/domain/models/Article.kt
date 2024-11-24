@@ -1,4 +1,4 @@
-package com.android.news.core.domain
+package com.android.news.core.domain.models
 
 data class Article(
     val articleId: String,

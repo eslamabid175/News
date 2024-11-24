@@ -6,7 +6,10 @@ import androidx.room.Upsert
 
 @Dao
 interface ArticlesDao {
-
+//companion object{
+//    const val DATABASE_NAME="articles_db"
+//
+//}
 @Query("SELECT * FROM articleentity")
     suspend fun getArticleList(): List<ArticleEntity>
 // to pass the articles to database
