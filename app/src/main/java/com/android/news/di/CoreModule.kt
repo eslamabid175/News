@@ -1,7 +1,11 @@
-package com.android.news.core.di
+package com.android.news.di
 
 import androidx.room.Room
 import com.android.news.core.data.local.ArticleDataBase
+import com.android.news.core.data.repositoriesImpl.NewsRepositoryImpl
+import com.android.news.core.domain.repositories.NewsRepository
+import com.android.news.details.presentation.articleScreen.ArticleViewModel
+import com.android.news.core.presintation.screens.newsScreen.NewsViewModel
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
 import io.ktor.client.engine.cio.endpoint
@@ -16,11 +20,19 @@ import io.ktor.http.HttpHeaders
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 import org.koin.android.ext.koin.androidApplication
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 
 // module is used to define the dependencies that we want to inject and provide it to the view model or other classes
 val coreMOdule= module {
+        viewModel { NewsViewModel(get()) }
+        viewModel { ArticleViewModel(get()) }
+
+    single<NewsRepository> { NewsRepositoryImpl(get(),get()) }
+
+
+
 // single is used to define the single instance of the class
     // and it will be shared between all the view models and other classes
     single {

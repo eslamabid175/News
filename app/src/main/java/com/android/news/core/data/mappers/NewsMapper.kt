@@ -1,12 +1,12 @@
-package com.android.news.core.data
+package com.android.news.core.data.mappers
 
 import com.android.news.core.data.local.ArticleEntity
 import com.android.news.core.data.remote.ArticleDto
 import com.android.news.core.data.remote.NewsListDto
-import com.android.news.core.domain.Article
-import com.android.news.core.domain.NewsList
+import com.android.news.core.domain.models.Article
+import com.android.news.core.domain.models.NewsList
 //this function is used to convert the news list dto to news list
-fun NewsListDto.toNewsList():NewsList{
+fun NewsListDto.toNewsList(): NewsList {
     return NewsList(
         nextPage = nextPage,
         articles = results?.map { it.toArticle() } ?: emptyList(),
